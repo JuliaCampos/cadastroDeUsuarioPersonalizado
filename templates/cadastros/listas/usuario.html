@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+     <title>Lista de usuarios</title>
+
+  </head>
+
+  <body>
+  <header>
+        <nav class="navbar navbar-expand navbar-dark bg-dark mb-3">
+        <div class="container">
+             <ul class="navbar-nav">
+               <li class="nav-item">
+                   <a class="navbar-brand" href="{% url 'inicio' %}">
+                            Inicio
+                   </a>
+                   <a class="navbar-brand" href="{% url 'cadastrar-usuario' %}">
+                            Cadastro
+                   </a>
+                  {% if user.is_authenticated %}
+                        <a class="navbar-brand" href="{% url 'editar-usuario' request.user.pk %}">
+                            Editar
+                        </a>
+                        <a class="navbar-brand" href="{% url 'excluir-usuario' request.user.pk %}">
+                            Excluir
+                        </a>
+                        <a class="navbar-brand" href="{% url 'logout' %}">
+                            Sair
+                        </a>
+                      {% else %}
+                       <a class="navbar-brand" href="{% url 'login' %}">
+                            Entrar
+                       </a>
+                  {% endif %}
+                   <a class="navbar-brand" href="{% url 'sobre' %}">
+                                 Sobre
+                   </a>
+               </li>
+            </ul>
+       </div>
+    </nav>
+  </header>
+
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-lg-12">
+          <h1 class="page-header"> Dados do usuario cadastrado</h1>
+        </div>
+
+          <a href="{% url 'cadastrar-usuario' %}" class="btn btn-primary"> Adicionar Usuario</a>
+      </div>
+
+    </div><!-- /.container -->
+
+    <div class="container">
+
+      <hr>
+
+      <form method="post">
+          <div class="table-responsive">
+              <table class="table table-striped">
+                <tr>
+                    <th> Nome </th>
+                    <th> email </th>
+                    <th> pais </th>
+                    <th> estado </th>
+                    <th> municipio </th>
+                    <th> cep </th>
+                    <th> rua </th>
+                    <th> numero </th>
+                    <th> complemento </th>
+                    <th> cpf </th>
+                    <th> pis </th>
+                </tr>
+
+                  {% for usuario in object_list %}
+                        <tr>
+                        <td>
+                            {{usuario.nome}}
+                        </td>
+                         <td>
+                            {{usuario.email}}
+                        </td>
+                         <td>
+                            {{usuario.pais}}
+                        </td>
+                         <td>
+                            {{usuario.estado}}
+                        </td>
+                         <td>
+                            {{usuario.municipio}}
+                        </td>
+                        <td>
+                            {{usuario.cep}}
+                        </td>
+                        <td>
+                            {{usuario.rua}}
+                        </td>
+                        <td>
+                            {{usuario.complemento}}
+                        </td>
+                        <td>
+                            {{usuario.cpf}}
+                        </td>
+                        <td>
+                            {{usuario.pis}}
+                        </td>
+                        <td> <a href="{% url 'editar-usuario' usuario.pk %}" class="btn btn-warning btn-sm">X</a> </td>
+                        <td> <a href="{% url 'excluir-usuario' usuario.pk%}" class="btn btn-danger btn-sm">Edit</a> </td>
+                        </tr>
+
+                    {% empty %}
+                      <tr>
+                      <td colspan="11">
+                          Nenhum usuario registrado
+                      </td>
+                      </tr>
+                  {% endfor %}
+                  
+        </table>
+          </div>
+
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+      </form>
+
+      <footer>
+        <div class="row">
+          <div class="col-lg-12">
+            <p>Copyright &copy; Julia <span id="getCurrentDate"></span></p>
+          </div>
+        </div>
+      </footer>
+
+    </div><!-- /.container -->
+
+    <!-- ano -->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script type="text/javascript">
+      var dt = new Date();
+      document.getElementById('getCurrentDate').innerHTML = dt.getFullYear();
+    </script>
+
+  </body>
+
+</html>
